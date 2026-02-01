@@ -1,0 +1,18 @@
+---
+- name: Install Apache
+  apt:
+    name: "{{package_name}}"
+    state: present
+    update_cache: yes
+
+- name: Start and enable Apache
+  service: 
+    name: "{{service_name}}"
+    state: started
+    enabled: yes
+
+- name: Deploy custom index page
+  template:
+    src: index.html.j2
+    dest: /var/www/index.html
+  notify: Restart Apache
